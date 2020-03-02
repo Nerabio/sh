@@ -1,8 +1,9 @@
 export class KeyViewModel
 {
-    id: number; 
+    id: number;
     description:string;
     typeKey:string;
     typeKeyValue:string;
+    name:string;
     value:string;
 }

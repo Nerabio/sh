@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import { NgModule } from '@angular/core';
 import {DataService} from './data.service';
+import { AppConfig } from './AppConfig';
 
 @Component({
   selector: "app-root",
@@ -12,18 +13,15 @@ export class AppComponent {
 
   public message: string;
 
-  constructor(private dataService: DataService) {
-    this.message = "sefsefsefs";
+  constructor(private elementRef: ElementRef,
+              private appConfig: AppConfig) {
+    //Date.prototype.toJSON = function(){ return moment(this).format("YYYY-MM-DDTHH:mm:ss"); }
+
+    const webapiUrl = this.elementRef.nativeElement.getAttribute(
+      'webapiUrl'
+    );
+    this.appConfig.webapiUrl = webapiUrl;
   }
 
-  changeMessage(): string[] {
-    this.onChange(this.message);
-    let data = this.dataService.getData();
-    console.log(data);
-    return data;
-  }
 
-  onChange(message: string) {
-    this.dataService.addData(message);
-  }
 }

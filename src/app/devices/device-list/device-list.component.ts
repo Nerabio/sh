@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { DeviceViewModel } from '../shared/DeviceViewModel';
 import { DeviceModule } from '../device.module';
 import { DeviceStatus } from '../shared/DeviceStatus.enum';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 
 @Component({
@@ -18,9 +19,9 @@ export class DeviceListComponent implements OnInit {
   constructor(private deviceService: DeviceService) { }
 
   getDevices(){
-    this.deviceService.getDeviceList('https://localhost:44319/api/device').subscribe(data =>{
+    this.deviceService.getDeviceList().subscribe(data =>{
     // value - результат
-    
+
     this.devices = data;
     console.log(this.devices);
     },
@@ -30,7 +31,7 @@ export class DeviceListComponent implements OnInit {
     });
   }
 
-  getDeviceStatus(device: DeviceViewModel): DeviceStatus 
+  getDeviceStatus(device: DeviceViewModel): DeviceStatus
   {
     if(device.isActive && device.isConnected) return DeviceStatus.Connected;
     if(device.isActive && !device.isConnected) return DeviceStatus.NoConnected;
@@ -43,6 +44,18 @@ export class DeviceListComponent implements OnInit {
     if(status == DeviceStatus.Connected) return {'panel-success': true};
     if(status == DeviceStatus.NoConnected) return {'panel-warning': true};
     if(status == DeviceStatus.PowerOff) return {'panel-danger': true};
+  }
+
+  onChangeToggle(device: DeviceViewModel) {
+    device.isActive = !device.isActive;
+    if(device.isActive){
+      this.deviceService.DeviceToggle(device).subscribe(data =>{
+        console.log(data);
+        },
+        error => {
+            console.log(error);
+        });
+    }
   }
 
   ngOnInit() {

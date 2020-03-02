@@ -9,39 +9,39 @@
 
 
   <div class="row">
-    <div class="col-md-3" *ngFor="let device of devices">
+    <div class="col-md-4" *ngFor="let device of devices">
       <div class="panel " [ngClass]="getColorStatus(device)">
         <div class="panel-heading">
-          <h3 class="panel-title">{{device.name}}</h3>
+          <h3 class="panel-title">{{device.name}} <mat-slide-toggle [checked]="device.isActive" (change)="onChangeToggle(device)"></mat-slide-toggle></h3>
         </div>
         <div class="panel-body">
 
-          
-            <li class="list-group-item" *ngFor="let section of device.sectionKey">
+
+          <div *ngFor="let section of device.sectionKey">
+            <li class="list-group-item">
               {{section.name}}
             </li>
-         
+            <table class="table">
+              <thead>
+                <tr>
+             <!-- <th>id</th>
+                  <th>Описание</th> -->
+                  <th>in/out</th>
+                  <th>name</th>
+                  <th>value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let key of section.keys">
+             <!-- <th scope="row">{{key.id}}</th>
+                  <td>{{key.description}}</td>  -->
+                  <td>{{key.typeKey}}</td>
+                  <td>{{key.name}}</td>
+                  <td>{{key.value}}</td>
+                </tr>
+              </tbody>
+            </table></div>
 
-          <table class="table">
-            <thead>
-              <tr>
-                <th>id</th>
-                <th>Описание</th>
-                <th>in/out</th>
-                <th>value</th>
-              </tr>
-            </thead>
-            <tbody>
-              <div *ngFor="let section of device.sectionKey">
-              <tr *ngFor="let key of section.keys">
-                <th scope="row">{{key.id}}</th>
-                <td>{{key.description}}</td>
-                <td>{{key.typeKey}}</td>
-                <td>{{key.value}}</td>
-              </tr>
-              </div>
-            </tbody>
-          </table>
         </div>
       </div>
     </div>
