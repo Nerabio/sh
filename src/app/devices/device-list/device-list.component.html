@@ -7,6 +7,10 @@
   min="1"
   max="100"></mat-slider>
 
+  <button class="btn btn-lg btn-outline-primary" (click)="open(mymodal)">Создать связь</button>
+
+
+
 
   <div class="row">
     <div class="col-md-4" *ngFor="let device of devices">
@@ -22,31 +26,84 @@
         </div>
         <div class="panel-body">
 
+            <div>
+              <div class="tab-container">
+                <div class="tab-wrapper">
+                    <input type="radio" name="tab_{{device.id}}" id="tab1_{{device.id}}" checked />
+                    <label class="tab-label" for="tab1_{{device.id}}" nth="1">Ключи</label>
+                    <div class="tab-item" id="tab-content1">
+                    <!-- Ключи -->
+                      <div *ngFor="let section of device.sectionKey">
+                        <li class="list-group-item">
+                          {{section.name}}
+                        </li>
+                        <table class="table">
+                          <thead>
+                            <tr>
+                         <!-- <th>id</th>
+                              <th>Описание</th> -->
+                              <th>in/out</th>
+                              <th>name</th>
+                              <th>value</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let key of section.keys">
+                         <!-- <th scope="row">{{key.id}}</th>
+                              <td>{{key.description}}</td>  -->
+                              <td>{{key.typeKey}}</td>
+                              <td>{{key.name}}</td>
+                              <td>{{key.value}}</td>
+                            </tr>
+                          </tbody>
+                        </table></div>
+                      <!-- Ключи -->
+                    </div>
+            
+                    <input type="radio" name="tab_{{device.id}}" id="tab2_{{device.id}}" />
+                    <label class="tab-label" for="tab2_{{device.id}}" nth="2">Связи</label>
+                    <div class="tab-item" >
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th>Dev</th>
+                              <th>Key</th>
+                              <th></th>
+                              <th>Dev</th>
+                              <th>Key</th>
+                            </tr>
+                          </thead>
+                          <tbody *ngIf="relations != null">
+                            <tr *ngFor="let relation of getDeviceRelationById(device.id)">                              
+                                   <td>{{relation.deviceOutName}}</td>  
+                                   <td>{{relation.keyOutName}}</td>
+                                   <td><button (click)="deleteRelation(relation.id)">X</button></td>
+                                   <td>{{relation.deviceInName}}</td>
+                                   <td>{{relation.keyInName}}</td>
+                                 </tr>
+                          </tbody>
+                        </table>
+                    </div>
+            
+                  <!--   <input type="radio" name="tab_{{device.id}}" id="tab3_{{device.id}}" />
+                    <label class="tab-label" for="tab3_{{device.id}}" nth="3">Вкладка 3</label>
+                    <div class="tab-item" >{{device.name}}</div>
+            
+                    <input type="radio" name="tab_{{device.id}}" id="tab4_{{device.id}}" />
+                    <label class="tab-label" for="tab4_{{device.id}}" nth="4">tab4</label>
+                    <div class="tab-item" >{{device.name}}</div>
+            
+                    <input type="radio" name="tab_{{device.id}}" id="tab5_{{device.id}}" />
+                    <label class="tab-label" for="tab5_{{device.id}}" nth="5">tab5</label>
+                    <div class="tab-item" >Where can I get some? {{device.name}}</div> -->
+                </div>
+              </div>
+              
+              
+              
+            </div>
 
-          <div *ngFor="let section of device.sectionKey">
-            <li class="list-group-item">
-              {{section.name}}
-            </li>
-            <table class="table">
-              <thead>
-                <tr>
-             <!-- <th>id</th>
-                  <th>Описание</th> -->
-                  <th>in/out</th>
-                  <th>name</th>
-                  <th>value</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let key of section.keys">
-             <!-- <th scope="row">{{key.id}}</th>
-                  <td>{{key.description}}</td>  -->
-                  <td>{{key.typeKey}}</td>
-                  <td>{{key.name}}</td>
-                  <td>{{key.value}}</td>
-                </tr>
-              </tbody>
-            </table></div>
+
 
         </div>
       </div>
@@ -55,3 +112,55 @@
 
 
 
+ 
+   
+  
+     
+  <ng-template #mymodal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Создать связь</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-3">
+                  <select (ngModel)="selectRelation.deviceOutId" (change)="onChange_DeviceOut($event)">
+                    <option value=null>Выбрать устройство</option>
+                    <option *ngFor="let device of devices" [value]="device.id">{{device.name}}</option>
+                  </select>
+                </div>
+    
+                <div class="col-md-3">
+                  <select *ngIf="selectRelation.deviceOutId != null" (ngModel)="selectRelation.keyOutId" (change)="onChange_keyOut($event)" >
+                    <option value=null>Выбрать параметр</option>
+                    <option *ngFor="let key of getDeviceKeys(selectRelation.deviceOutId)" [value]="key.id">{{key.name}}</option>
+                  </select>
+                </div>
+    
+                <div class="col-md-3">
+                  <select *ngIf="selectRelation.keyOutId != null" (ngModel)="selectRelation.deviceInId" (change)="onChange_DeviceIn($event)">
+                    <option value=null>Выбрать устройство</option>
+                    <option *ngFor="let device of devices" [value]="device.id">{{device.name}}</option>
+                  </select>
+                </div>
+    
+                <div class="col-md-3">
+                  <select *ngIf="selectRelation.deviceInId != null" (ngModel)="selectRelation.keyOutId" (change)="onChange_keyIn($event)" >
+                    <option value=null>Выбрать параметр</option>
+                    <option *ngFor="let key of getDeviceKeys(selectRelation.deviceInId)" [value]="key.id">{{key.name}}</option>
+                  </select>
+                </div>
+    
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save')">Save</button>
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cancel')">Cancel</button>
+    </div>
+  </ng-template>

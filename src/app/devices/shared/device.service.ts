@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { DeviceViewModel } from './DeviceViewModel';
 import { AppConfig } from '../../AppConfig';
+import { DeviceRelations } from './DeviceRelations';
 
 @Injectable()
 export class DeviceService {
@@ -20,4 +21,6 @@ export class DeviceService {
         let alias = device.isActive ? 'turnOn/' : 'turnOff/';
         return this.httpClient.get<Response>(this.baseUrl + 'turnOn/' + device.id);
     }
+
+
 }

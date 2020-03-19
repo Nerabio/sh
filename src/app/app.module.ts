@@ -19,11 +19,12 @@ import { MatListModule } from '@angular/material/list';
 import { HttpClientModule } from '@angular/common/http';
 import { AppConfig } from './AppConfig';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MyNavComponent
+    MyNavComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,7 +40,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatIconModule,
     MatListModule,
     MatSlideToggleModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule
   ],
   providers: [DataService, AppConfig],
   bootstrap: [AppComponent]
