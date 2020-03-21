@@ -1,9 +1,10 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { DeviceViewModel } from './DeviceViewModel';
 import { AppConfig } from '../../AppConfig';
 import { DeviceRelations } from './DeviceRelations';
+import { ParamKey } from './ParamKey';
 
 @Injectable()
 export class DeviceService {
@@ -22,5 +23,22 @@ export class DeviceService {
         return this.httpClient.get<Response>(this.baseUrl + 'turnOn/' + device.id);
     }
 
+    sendParams(prms: ParamKey): Observable<Response>{
+      //https://localhost:44319/api/device/1/input?vals=sd //generalKey:num:777
+      let keys = [];
+
+      prms.sectionKey.keys.forEach(function(item, i, arr) {
+        keys.push(prms.sectionKey.name+":"+item.name+":"+item.value);
+      });
+      
+      let params = new HttpParams();
+
+      keys.forEach(function(item, i, arr) {
+        params = params.append('vals', item);
+      });
+      
+
+        return this.httpClient.get<Response>(this.baseUrl + prms.deviceId + '/input', { params: params });
+    }
 
 }

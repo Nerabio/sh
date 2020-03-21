@@ -8,6 +8,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { DeviceRelationsComponent } from './device-relations/device-relations.component';
 import { RelationsService } from './shared/relations.service';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { BrowserModule } from '@angular/platform-browser';
     CommonModule,
     DeviceRoutes,
     MatSliderModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    FormsModule
   ],
   providers: [DeviceService, RelationsService],
   declarations: [DeviceListComponent,DeviceRelationsComponent]

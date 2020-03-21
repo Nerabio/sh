@@ -35,7 +35,7 @@
                     <!-- Ключи -->
                       <div *ngFor="let section of device.sectionKey">
                         <li class="list-group-item">
-                          {{section.name}}
+                          {{section.name}} <button (click)="changeKeyValue(device.id, section, valuemodal)">sendKey</button>
                         </li>
                         <table class="table">
                           <thead>
@@ -112,10 +112,7 @@
 
 
 
- 
-   
-  
-     
+
   <ng-template #mymodal let-modal>
     <div class="modal-header">
       <h4 class="modal-title" id="modal-basic-title">Создать связь</h4>
@@ -161,6 +158,27 @@
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save')">Save</button>
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cancel')">Cancel</button>
+    </div>
+  </ng-template>
+
+
+  <ng-template #valuemodal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Изменить значение</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      
+<div *ngFor="let key of paramKey.sectionKey.keys">
+  {{key.name}} {{key.typeKey}} {{key.typeKeyValue}} {{key.value}}
+  <input type="text" [(ngModel)] = "key.value">
+</div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('SaveKeyValue')">Save</button>
       <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cancel')">Cancel</button>
     </div>
   </ng-template>

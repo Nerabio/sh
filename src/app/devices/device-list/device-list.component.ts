@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { DeviceService } from '../shared/device.service';
 import { NgModule } from '@angular/core';
 import { FormsModule  } from '@angular/forms';
@@ -10,6 +10,8 @@ import { DeviceRelations } from '../shared/DeviceRelations';
 import { KeyViewModel } from '../shared/KeyViewModel';
 import { RelationsService } from '../shared/relations.service';
 import { NgbModal, ModalDismissReasons, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import { ParamKey } from '../shared/ParamKey';
+import { SectionKeyViewModel } from '../shared/SectionKeyViewModel';
  
 
 @Component({
@@ -22,6 +24,7 @@ export class DeviceListComponent implements OnInit {
   public devices: DeviceViewModel[];
   public relations: DeviceRelations[];
   public selectRelation: DeviceRelations = new DeviceRelations();
+  public paramKey: ParamKey = new ParamKey();
   
   closeResult: string;
   public message: string;
@@ -47,6 +50,7 @@ export class DeviceListComponent implements OnInit {
               this.modalService.open(content, this.modalOptions).result.then((result) => {
                 this.closeResult = `Closed with: ${result}`;
                 if(result == 'Save') this.createRelation();
+                if(result == 'SaveKeyValue') this.sendParams();
               }, (reason) => {
                 this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
               });               
@@ -61,6 +65,23 @@ export class DeviceListComponent implements OnInit {
                 return  `with: ${reason}`;
               }
             }
+
+      changeKeyValue(deviceId: number, sectionKey: SectionKeyViewModel,valumodal: any){
+        this.paramKey.deviceId =  null;
+        this.paramKey.sectionKey = null;
+        this.paramKey.deviceId =  deviceId;
+        this.paramKey.sectionKey = sectionKey;
+        this.open(valumodal);
+      }
+
+      sendParams(){
+        this.deviceService.sendParams(this.paramKey).subscribe(data =>{
+              console.log(data);
+          },
+          error => {
+              console.log(error);
+          });
+      }
 
   getDevices(){
     this.deviceService.getDeviceList().subscribe(data =>{
