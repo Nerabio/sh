@@ -5,6 +5,7 @@ import { DeviceViewModel } from './DeviceViewModel';
 import { AppConfig } from '../../AppConfig';
 import { DeviceRelations } from './DeviceRelations';
 import { ParamKey } from './ParamKey';
+import { KeyViewModel } from './KeyViewModel';
 
 @Injectable()
 export class DeviceService {
@@ -20,7 +21,7 @@ export class DeviceService {
 
     DeviceToggle(device: DeviceViewModel): Observable<Response>{
         let alias = device.isActive ? 'turnOn/' : 'turnOff/';
-        return this.httpClient.get<Response>(this.baseUrl + 'turnOn/' + device.id);
+        return this.httpClient.get<Response>(this.baseUrl + alias + device.id);
     }
 
     sendParams(prms: ParamKey): Observable<Response>{
@@ -38,7 +39,10 @@ export class DeviceService {
       });
       
 
-        return this.httpClient.get<Response>(this.baseUrl + prms.deviceId + '/input', { params: params });
+        return this.httpClient.get<Response>(this.baseUrl + prms.guid + '/input', { params: params });
     }
 
+    getChangedKeys(): Observable<KeyViewModel[]>{
+      return this.httpClient.get<KeyViewModel[]>(this.baseUrl + 'getChangedKeys');
+    }
 }

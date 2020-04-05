@@ -66,10 +66,11 @@ export class DeviceListComponent implements OnInit {
               }
             }
 
-      changeKeyValue(deviceId: number, sectionKey: SectionKeyViewModel,valumodal: any){
+      changeKeyValue(guid: string, sectionKey: SectionKeyViewModel,valumodal: any){
         this.paramKey.deviceId =  null;
         this.paramKey.sectionKey = null;
-        this.paramKey.deviceId =  deviceId;
+        //this.paramKey.deviceId =  deviceId;
+        this.paramKey.guid =  guid;
         this.paramKey.sectionKey = sectionKey;
         this.open(valumodal);
       }
@@ -130,14 +131,12 @@ export class DeviceListComponent implements OnInit {
 
   onChangeToggle(device: DeviceViewModel) {
     device.isActive = !device.isActive;
-    if(device.isActive){
       this.deviceService.DeviceToggle(device).subscribe(data =>{
         console.log(data);
         },
         error => {
             console.log(error);
         });
-    }
   }
 
   getRelations(){
@@ -206,11 +205,28 @@ export class DeviceListComponent implements OnInit {
     this.selectRelation.keyInId = ev.target.value != "null" ? ev.target.value : null;
   }
 
-
+  refreshKeys(): void {  
+        this.deviceService.getChangedKeys().subscribe(newKeys =>{  
+          newKeys.forEach(nkey => {
+            this.devices.forEach(device => {
+              device.sectionKey.forEach(function(item, i, arr) {
+                item.keys.forEach(function(key, i, keys) {
+                  if(nkey.id == key.id && nkey.value !== key.value) key.value = nkey.value;              
+                });
+              });
+            });
+          });
+      },
+      error => {
+          console.log(error);
+      });
+    console.log('tick');
+  }
 
   ngOnInit() {
     this.getDevices();
     this.getRelations();
+    let timerId = setInterval(() => this.refreshKeys(), 3000);
   }
 
 }

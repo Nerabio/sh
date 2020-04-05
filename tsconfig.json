@@ -17,7 +17,23 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "skipLibCheck": true,
+    "paths": {
+      "stream": ["../node_modules/readable-stream/readable.js"],
+      "globalize": [
+        "../node_modules/globalize/dist/globalize"
+      ],
+      "globalize/*": [
+        "../node_modules/globalize/dist/globalize/*"
+      ],
+      "cldr": [
+        "../node_modules/cldrjs/dist/cldr"
+      ],
+      "cldr/*": [
+        "../node_modules/cldrjs/dist/cldr/*"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

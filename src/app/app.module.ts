@@ -20,6 +20,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppConfig } from './AppConfig';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { DxButtonModule } from 'devextreme-angular';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     MatListModule,
     MatSlideToggleModule,
     HttpClientModule,
-    NgbModule
+    NgbModule,
+    DxButtonModule
   ],
   providers: [DataService, AppConfig],
   bootstrap: [AppComponent]

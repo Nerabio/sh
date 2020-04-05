@@ -9,7 +9,21 @@ import { DeviceRelationsComponent } from './device-relations/device-relations.co
 import { RelationsService } from './shared/relations.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-
+import {
+  DevExtremeModule,
+  DxDataGridModule,
+  DxTextBoxModule,
+  DxSelectBoxModule,
+  DxTemplateModule,
+  DxDropDownBoxModule,
+  DxCheckBoxModule,
+  DxTextAreaModule,
+  DxDateBoxModule,
+  DxFileUploaderModule,
+  DxSchedulerModule,
+  DxPopupModule,
+  DxButtonModule,
+} from 'devextreme-angular';
 
 @NgModule({
   imports: [
@@ -18,7 +32,20 @@ import { FormsModule } from '@angular/forms';
     DeviceRoutes,
     MatSliderModule,
     MatSlideToggleModule,
-    FormsModule
+    FormsModule,
+    DevExtremeModule,
+    DxDataGridModule,
+    DxTextBoxModule,
+    DxSelectBoxModule,
+    DxTemplateModule,
+    DxDropDownBoxModule,
+    DxCheckBoxModule,
+    DxTextAreaModule,
+    DxDateBoxModule,
+    DxFileUploaderModule,
+    DxSchedulerModule,
+    DxPopupModule,
+    DxButtonModule
   ],
   providers: [DeviceService, RelationsService],
   declarations: [DeviceListComponent,DeviceRelationsComponent]
